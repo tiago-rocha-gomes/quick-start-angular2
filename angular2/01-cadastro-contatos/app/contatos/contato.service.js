@@ -9,14 +9,25 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 var core_1 = require('@angular/core');
-var contatos_mock_1 = require('./contatos-mock');
+var http_1 = require('@angular/http');
+var http_2 = require('@angular/http');
+require('rxjs/add/operator/toPromise');
 var ContatoService = (function () {
-    function ContatoService() {
+    function ContatoService(http) {
+        this.http = http;
+        this.contatosUrl = "app/contatos";
+        this.headers = new http_2.Headers({ "Content-Type": "application/json" });
     }
     ContatoService.prototype.getContatos = function () {
-        return Promise.resolve(contatos_mock_1.CONTATOS);
+        return this.http.get(this.contatosUrl)
+            .toPromise()
+            .then(function (response) { return response.json().data; })
+            .catch(this.handleError);
     };
     ;
+    ContatoService.prototype.handleError = function (error) {
+        return Promise.reject(error.message || error);
+    };
     ContatoService.prototype.getContato = function (id) {
         return this.getContatos().then(function (contatos) {
             return contatos.find(function (item) {
@@ -24,9 +35,38 @@ var ContatoService = (function () {
             });
         });
     };
+    ContatoService.prototype.create = function (contato) {
+        return this.http
+            .post(this.contatosUrl, JSON.stringify(contato), { headers: this.headers })
+            .toPromise()
+            .then(function (response) {
+            return response.json().data;
+        })
+            .catch(this.handleError);
+    };
+    ContatoService.prototype.update = function (contato) {
+        var url = this.contatosUrl + "/" + contato.id;
+        return this.http
+            .put(url, JSON.stringify(contato), { headers: this.headers })
+            .toPromise()
+            .then(function () {
+            return contato;
+        })
+            .catch(this.handleError);
+    };
+    ContatoService.prototype.delete = function (contato) {
+        var url = this.contatosUrl + "/" + contato.id;
+        return this.http
+            .delete(url, { headers: this.headers })
+            .toPromise()
+            .then(function () {
+            return contato;
+        })
+            .catch(this.handleError);
+    };
     ContatoService = __decorate([
         core_1.Injectable(), 
-        __metadata('design:paramtypes', [])
+        __metadata('design:paramtypes', [http_1.Http])
     ], ContatoService);
     return ContatoService;
 }());

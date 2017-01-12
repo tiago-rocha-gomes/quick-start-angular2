@@ -1,7 +1,7 @@
 <div class="container" style="padding-top: 20px;">
     <h2>Salvar Contato</h2>
 
-    <form #contatoForm = "ngForm" novalidate>
+    <form (ngSubmit)="onSubmit()" #contatoForm = "ngForm" novalidate>
         
         <div class="form-group" [ngClass]="getFormGroupClass(nome.valid, nome.pristine)">
             <label for="nome" class="form-control-label">Nome</label>

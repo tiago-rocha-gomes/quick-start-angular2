@@ -13,6 +13,7 @@ import { ContatoService } from './contato.service';
 export class ContatoDetalheComponent implements OnInit{
 
     contato: Contato = new Contato(0, '', '', '');
+    private isNew: Boolean = true;
 
     constructor(
         private contatoService: ContatoService,
@@ -26,6 +27,7 @@ export class ContatoDetalheComponent implements OnInit{
                 // o '+' converte automaticamente para number'
                 let id: number = +params['id'];
                 if(id){
+                    this.isNew = false;
                     this.contatoService.getContato(id).then(
                         (contatoBuscado: Contato) => {
                             this.contato = contatoBuscado;
@@ -50,4 +52,13 @@ export class ContatoDetalheComponent implements OnInit{
         };
     }
 
+    onSubmit():void {
+        let promise;
+        if(this.isNew){
+            promise = this.contatoService.create(this.contato);    
+        } else {
+            promise = this.contatoService.update(this.contato);
+        }
+        promise.then(contato => this.location.back());
+    }
 }

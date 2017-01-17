@@ -1,3 +1,5 @@
+import './util/rxjs-extensions';
+
 import { NgModule } from '@angular/core'; 
 import { AppComponent } from './app.component';
 

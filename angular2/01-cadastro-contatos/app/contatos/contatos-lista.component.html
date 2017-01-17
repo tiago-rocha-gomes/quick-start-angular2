@@ -23,6 +23,11 @@
                     </tr>    
                 </thead>
                 <tbody>
+                    <tr>
+                        <td colspan="4" align="center" *ngIf="contatos.length == 0">
+                            Nenhum registro encontrado!
+                        </td>
+                    </tr>
                     <tr *ngFor="let c of contatos">
                         <td style="cursor: pointer;" [routerLink]="['/contato/save', c.id]">{{c.nome}}</td>
                         <td style="cursor: pointer;" [routerLink]="['/contato/save', c.id]">{{c.email}}</td>

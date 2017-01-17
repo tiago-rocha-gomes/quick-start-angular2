@@ -18,6 +18,7 @@ var ContatosListaComponent = (function () {
     function ContatosListaComponent(contatoService, dialogService) {
         this.contatoService = contatoService;
         this.dialogService = dialogService;
+        this.contatos = [];
     }
     ContatosListaComponent.prototype.ngOnInit = function () {
         var _this = this;
@@ -70,7 +71,10 @@ var ContatosListaComponent = (function () {
         this.mensagem = mensagem;
         this.isSuccess = mensagem.isSuccess;
         if (this.isSuccess) {
-            setTimeout(function () {
+            if (this.currentTimeout) {
+                clearTimeout(this.currentTimeout);
+            }
+            this.currentTimeout = setTimeout(function () {
                 _this.mensagem = undefined;
             }, 3000);
         }

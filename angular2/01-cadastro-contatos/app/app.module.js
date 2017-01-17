@@ -8,6 +8,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
+require('./util/rxjs-extensions');
 var core_1 = require('@angular/core');
 var app_component_1 = require('./app.component');
 var app_routing_module_1 = require('./app-routing.module');

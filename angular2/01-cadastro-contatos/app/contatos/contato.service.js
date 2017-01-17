@@ -64,6 +64,11 @@ var ContatoService = (function () {
         })
             .catch(this.handleError);
     };
+    ContatoService.prototype.search = function (term) {
+        return this.http
+            .get(this.contatosUrl + "/?nome=" + term)
+            .map(function (res) { return res.json().data; });
+    };
     ContatoService = __decorate([
         core_1.Injectable(), 
         __metadata('design:paramtypes', [http_1.Http])

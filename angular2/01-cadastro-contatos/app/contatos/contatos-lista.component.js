@@ -22,7 +22,7 @@ var ContatosListaComponent = (function () {
     }
     ContatosListaComponent.prototype.ngOnInit = function () {
         var _this = this;
-        this.contatoService.getContatos()
+        this.contatoService.findAll()
             .then(function (contatos) {
             _this.contatos = contatos;
         }).catch(function (error) {

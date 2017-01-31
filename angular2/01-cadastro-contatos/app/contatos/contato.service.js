@@ -18,7 +18,7 @@ var ContatoService = (function () {
         this.contatosUrl = "app/contatos";
         this.headers = new http_2.Headers({ "Content-Type": "application/json" });
     }
-    ContatoService.prototype.getContatos = function () {
+    ContatoService.prototype.findAll = function () {
         return this.http.get(this.contatosUrl)
             .toPromise()
             .then(function (response) { return response.json().data; })
@@ -28,8 +28,8 @@ var ContatoService = (function () {
     ContatoService.prototype.handleError = function (error) {
         return Promise.reject(error.message || error);
     };
-    ContatoService.prototype.getContato = function (id) {
-        return this.getContatos().then(function (contatos) {
+    ContatoService.prototype.find = function (id) {
+        return this.findAll().then(function (contatos) {
             return contatos.find(function (item) {
                 return item.id === id;
             });

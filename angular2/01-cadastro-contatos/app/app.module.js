@@ -15,6 +15,7 @@ var app_routing_module_1 = require('./app-routing.module');
 var platform_browser_1 = require('@angular/platform-browser');
 var contatos_module_1 = require('./contatos/contatos.module');
 var dialog_service_1 = require('./dialog.service');
+var forms_1 = require('@angular/forms');
 var http_1 = require('@angular/http');
 var angular_in_memory_web_api_1 = require('angular-in-memory-web-api');
 var in_memory_data_service_1 = require('./in-memory-data.service');
@@ -28,6 +29,7 @@ var AppModule = (function () {
                 contatos_module_1.ContatosModule,
                 app_routing_module_1.AppRoutingModule,
                 http_1.HttpModule,
+                forms_1.FormsModule,
                 angular_in_memory_web_api_1.InMemoryWebApiModule.forRoot(in_memory_data_service_1.InMemoryDataService)
             ],
             declarations: [app_component_1.AppComponent],

@@ -12,9 +12,12 @@ var core_1 = require('@angular/core');
 var Observable_1 = require('rxjs/Observable');
 var Subject_1 = require('rxjs/Subject');
 var contato_service_1 = require('./contato.service');
+var router_1 = require('@angular/router');
 var ContatoBuscaComponent = (function () {
-    function ContatoBuscaComponent(contatoService) {
+    function ContatoBuscaComponent(contatoService, router) {
         this.contatoService = contatoService;
+        this.router = router;
+        this.buscaChange = new core_1.EventEmitter();
         this.termosDaBusca = new Subject_1.Subject();
     }
     ContatoBuscaComponent.prototype.ngOnInit = function () {
@@ -24,21 +27,41 @@ var ContatoBuscaComponent = (function () {
             .distinctUntilChanged()
             .switchMap(function (term) {
             return term ? _this.contatoService.search(term) : Observable_1.Observable.of([]);
+        })
+            .catch(function (err) {
+            console.error(err);
+            return Observable_1.Observable.of([]);
         });
-        this.contatos.subscribe(function (contatos) {
-            console.log('retornou, ', contatos);
-        });
+    };
+    ContatoBuscaComponent.prototype.ngOnChanges = function (changes) {
+        var busca = changes['busca'];
+        this.search(busca.currentValue);
     };
     ContatoBuscaComponent.prototype.search = function (term) {
         this.termosDaBusca.next(term);
+        this.buscaChange.emit(term);
     };
+    ContatoBuscaComponent.prototype.verDetalhe = function (contato) {
+        var link = ['contato/save', contato.id];
+        this.router.navigate(link);
+        this.buscaChange.emit('');
+    };
+    __decorate([
+        core_1.Input(), 
+        __metadata('design:type', String)
+    ], ContatoBuscaComponent.prototype, "busca", void 0);
+    __decorate([
+        core_1.Output(), 
+        __metadata('design:type', core_1.EventEmitter)
+    ], ContatoBuscaComponent.prototype, "buscaChange", void 0);
     ContatoBuscaComponent = __decorate([
         core_1.Component({
             moduleId: module.id,
             selector: 'contato-busca',
-            templateUrl: 'contato-busca.component.html'
+            templateUrl: 'contato-busca.component.html',
+            styles: ["\n        .cursor-pointer {\n            cursor: pointer;\n        }\n    "]
         }), 
-        __metadata('design:paramtypes', [contato_service_1.ContatoService])
+        __metadata('design:paramtypes', [contato_service_1.ContatoService, router_1.Router])
     ], ContatoBuscaComponent);
     return ContatoBuscaComponent;
 }());
